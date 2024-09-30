@@ -1,0 +1,116 @@
+.indexcolname {
+	width: 450px;
+	text-align:left; 
+	font-weight: 400;
+	color:lightgreen;
+	text-decoration: none;}
+
+.indexcolicon {
+	padding-bottom: 0px;
+	height:10px;
+	padding-top:-3px;}
+	
+.odd {height:10px;}
+
+.indexcollastmod {
+	color:yellow; 
+	padding-bottom: 0px;
+	text-align:left; 
+	width: auto;
+	font-weight: 400;
+	padding-bottom: 5px; 
+	font-size: 18px;
+	font-family:sans-serif;
+	text-align:left;}
+	
+.indexbreakrow {visibility:collapse;}
+.indexcolsize {visibility:collapse;}
+
+div {text-align: center ;}
+
+#indexlist { 
+	background-color: black;
+	margin:auto;
+	width:auto;
+	font-size:20px;}
+
+html {
+	background-color: black;}
+
+h1 {
+	color:white; 
+	font-size: 18px; 
+	text-align: center;
+	width: 500px; 
+	text-align: center; 
+	margin: auto;
+	padding-bottom: 20px;}
+
+address {
+	text-align: center;
+	visibility: collapse;}
+
+#indextitle {
+	width: 400px;
+	font-size: 20px;
+	margin:auto;}
+	
+table {
+	width: 850px;}
+	
+	
+p {
+     color:white;
+     padding-top: 0px; 
+     font-size:22px;
+     margin-top: -10px;
+     font-family:sans-serif;}
+
+.a {
+     width:100%; 
+     background: black; 
+     height:190px; 
+     margin: -5px -5PX; 
+     padding: -5px;
+     overflow:hidden;}
+
+.b {
+     width:100%; 
+     margin: -15px; 
+     height:520px; 
+     font-size:16px;}
+
+a {
+     color:white;
+     font-size: 18px;
+     font-family:sans-serif;
+     text-decoration:none;}
+
+body {
+     background:black;
+     }
+
+img {
+     height:40px; 
+     margin-bottom: -1px;
+     padding-top: 0px;}
+
+.n {
+     font-size:16px;
+   }
+   
+.center {
+     padding: 0px;
+     height:200px;
+     border: 5px solid transparent;
+     border-image: url(wood1.jpg) 30 round;
+     }
+
+.footer {
+     margin-top:10px;
+	}
+	
+	
+	
+	
+	

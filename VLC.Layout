@@ -1,0 +1,16 @@
+#!/bin/bash
+
+vlc & thunar
+xdotool windowfocus vlc
+xdotool key super+7 
+sleep 2;
+xdotool windowfocus vlc
+xdotool key super+L
+xdotool key super+1
+sleep 2;
+xdotool windowfocus thunar
+xdotool key super+6
+exit
+
+
+

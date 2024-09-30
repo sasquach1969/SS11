@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)http://ss11.sytes.net/linux.notes.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><title></title><style>
+body {color:white; background:black; text-decoration: none; font-family:sans-serif; width:90%;}
+</style></head><body><p>
+Terms<br>
+GUI = Graphical Userer Interface (Windows and buttons)<br>
+CLI = Command Line Interface (Terminal)<br>
+XFCE = Linux Desktop interface well suited for current and prior Windows users.<br>
+LTS = Long Term Support.<br>
+LMB = Left Mouse Button<br>
+RMB = Right Mouse Button (I know, big surprise there.)<br>
+(U) = Your user name<br>
+
+</p><h1>SECTION A</h1>
+
+ Linux notes beginning at 1/1/18 when I switched from Windows to Fedora Linux.<br>
+============================================================================<br>
+ Fedora 27 64bit LXDE Changelog. 
+ Every update of this file should be considered a complete replacement of the prior version.<br>
+ and not just the latest add-ons. Any item here may be changed between versions as I learn new things.<br>
+ On 1-1-18, I switched from Windows 7 X64 Pro to Linux-Fedora-27-X64-LXDE to Linux.Fredora.64.XFCE.<br>
+ on 9/1/18 then to Fedora 29+XFCE on 11/3/18. On 5/1/19 switched to Fedora 30 XFCE.<br>
+ On 12/1/2019 I upgraded to Ubuntu 18.04. On 04/25/2020, I upgraded to Ubuntu 20.04.1 LTS.<br>
+ On 01/01/22 I upgraded to Xubuntu (pronounced ZOOBUNTOO)<br>
+ The tips listed below are only guarenteed on Xubuntu or Ubuntu+XFCE.<br>
+ They may or may not work on other Linux systems.<br>
+ This page was last updated on <b>04/04/24</b>.<br>
+============================================================================<br>
+ Install Xubuntu 20.04.3 LTS or newer (LTS is important).<br>
+ Items with * are no longer in use or have become native in recent O/S versions of Xubuntu.<br>
+
+Optional (if not native in new verions, you might want to add these):<br>
+ *Install Firefox 113 or newer (Secondary browser only).<br>
+ Install Google Chrome 115 or newer (Primary browser).<br>
+ *Install WINE (WINdows Environment NOT emulator)<br>
+ *Install Filezilla Server in wine. (FTP SERVER)* (Optional)<br>
+ Install VLC Player <br>
+ Install x11vnc (Remote desktop). NO. This is a security risk.<br>
+ *Install Libreoffice (like open office but newer)<br>
+ *Install Screenshot (like snipping tool in windows)<br>
+ *Install gnome-tweak-tool (control panel for gnome)<br>
+ *Install gparted (partion manager)<br>
+ Install Bleachbit (System Cleaner)<br>
+ *Install Firewalld system tray app (sudo dnf install firewall-applet)<br>
+ *Install Deluge (torrent downloader) https://www.learn2crack.com/2013/10/download-torrent-using-terminal.html*<br>
+ Install Gimp (photo editor suite)<br>
+ *Install brightlight package (screen brightness control from CLI) use --help to see usage.<br>
+ *Install Install Everything server (local machine search engine) (No longer recommended).<br>
+ *Install gcolor2 (color picker)<br>
+ Install DVDSTYLER (DVD design, build, and burn software). https://ubuntuhandbook.org/index.php/2020/05/install-dvdstyler-ubuntu-20-04-lts/<br>
+ *Install system-config-users (To manage users and groups). (Native in new O/S versions).<br>
+ *Install gnome-disk-utility (To manage disks and partitions).<br>
+ *Install (from CLI) lshw   (Hardware detection.)<br>
+ *Install Hi Slider (slide show maker)<br>
+ *Install Printer Config utility (system-config-printer)<br>
+ Install hardinfo (system information utility with GUI).<br>
+ <h1>SECTION B</h1>
+ 
+ 01) To Autorun a CLI command at login (not boot)<br>
+ &#8195;&#8195;&#8195;A) Go to  /home/j.mander/.config/autostart (replace j.mander with your user name)<br>
+ &#8195;&#8195;&#8195;B) Create a file named (whatever).desktop  (must end in .desktop)<br>
+ &#8195;&#8195;&#8195;C) The following is the format for the file.<br><br>
+ &#8195;&#8195;&#8195;[Desktop Entry]<br>
+ &#8195;&#8195;&#8195;Type=Application<br>
+ &#8195;&#8195;&#8195;Exec=/usr/bin/firefox<br>
+ &#8195;&#8195;&#8195;Name=Firefox<br><br>
+ &#8195;&#8195;&#8195;Of course, the example will load Firefox on login. Customize the path<br>
+ &#8195;&#8195;&#8195;and name to the application you want to launch at login. <br>
+ &#8195;&#8195;&#8195;***NOTE - with XFCE, there is a much easier way.*** <br>
+ &#8195;&#8195;&#8195;See Start&gt;Settings&gt;Session and Startup&gt;Application Autostart.<br>
+ &#8195;&#8195;&#8195;These isems are stored in the root directory: /etc/xdg/autostart/<br><br>
+ 02) Ubuntu documentation - https://help.ubuntu.com/lts/ubuntu-help/index.html<br><br>
+ 03) Unit files are loaded from two locations. From lowest to highest precedence they are:<br>
+ &#8195;&#8195;&#8195;/usr/lib/systemd/system/ : units provided by installed packages. <br>
+ &#8195;&#8195;&#8195;/etc/systemd/system/ : units installed by the system administrator.<br>
+ &#8195;&#8195;&#8195;Use systemctl enable and the program name to create a link that allows a file to load on startup.<br><br>
+ 04) Power Manager is counterproductive for wifi connections. <br>
+ &#8195;&#8195;&#8195;To stop the constant reconnecting, and restore full power to the adaptor:<br>
+ &#8195;&#8195;&#8195;Tadd (copy and paste) as a section to /etc/NetworkManager.conf...<br>
+ &#8195;&#8195;&#8195;[connection]<br>
+ &#8195;&#8195;&#8195;# Values are 0 (use default), 1 (ignore/don't touch), 2 (disable) or 3 (enable).<br>
+ &#8195;&#8195;&#8195;wifi.powersave = 2<br>
+ &#8195;&#8195;&#8195;After changes are made NM will need to be restarted to take effect<br>
+ &#8195;&#8195;&#8195;Code:<br>
+ &#8195;&#8195;&#8195;sudo systemctl restart NetworkManager (or better yet,reboot)<br><br>
+ 05) Use crontab -e to schedule programs To save and exit alt+wq to just exit alt+q!  <br>
+ &#8195;&#8195;&#8195;Use i to insert esc to leave insert mode.<br>
+ &#8195;&#8195;&#8195;To write a log file and auto yes to install, use <br>
+ &#8195;&#8195;&#8195;40 06 * * * dnf update -y  &gt;/home/j.mander/Documents/log.log<br>
+ &#8195;&#8195;&#8195;This will check for updates each day at  6:40 am and write the results to the log file.<br>
+ &#8195;&#8195;&#8195;https://www.computerhope.com/unix/ucrontab.htm<br>
+ &#8195;&#8195;&#8195;https://www.howtogeek.com/101288/how-to-schedule-tasks-on-linux-an-introduction-to-crontab-files/<br>
+ &#8195;&#8195;&#8195;To clean the memory hourly and also perform updates once a day, use<br>
+ &#8195;&#8195;&#8195;20 05 * * * dnf update -y --best --allowerasing &gt;/home/ss10/Desktop/update.log<br>
+ &#8195;&#8195;&#8195;0 */1 * * * sync; echo 1 &gt;/proc/sys/vm/drop_caches &gt;/home/ss10/Desktop/update.log<br>
+ &#8195;&#8195;&#8195;or to recycle ram at any time from the $ prompt, just type sync.<br>
+ &#8195;&#8195;&#8195;***Note: if you want to edit the root cron in leafpad (must be root) it is at /var/spool/cron<br>
+ &#8195;&#8195;&#8195;To perform an action every 10 minutes, the syntax is  */10 * * * * /path/to/command  See<br>
+ &#8195;&#8195;&#8195;https://www.cyberciti.biz/faq/crontab-every-10-min/<br>
+ &#8195;&#8195;&#8195;Where is cron file?<br>
+ &#8195;&#8195;&#8195;The individual user cron files are located in /var/spool/cron, and system services and <br>
+ &#8195;&#8195;&#8195;applications generally add cron job files in the /etc/cron.d directory.<br><br>
+ 06) Full clock format code is  %A %m/%d/%Y %I:%M:%S %p  or  %m/%d/%y%n%H:%M:%S<br><br>
+ 07) Go to "start"&gt;Preferences&gt;Desktop Session Settings. <br>
+ &#8195;&#8195;&#8195;Uncheck Spice vdagent and other startups you dont need.<br><br>
+ 08) In CLI (Command Line Interface), use ps -Al  or top  to view running processes.<br>
+ &#8195;&#8195;&#8195;https://www.lifewire.com/uses-of-linux-ps-command-4058715<br><br>
+ 09) See what is happening at post. (Turn off the graphic at bootup.) <br>
+ &#8195;&#8195;&#8195;As root (#) run pcmanfm. Go to  /boot/grub2/grub.cfg. <br>
+ &#8195;&#8195;&#8195;Search for RHGB (red hat graphical boot) and delete it.<br>
+ &#8195;&#8195;&#8195;Your device will now return to text mode durring post (boot) <br>
+ &#8195;&#8195;&#8195;to let you catch errors and see activity real time.<br><br>
+ &#8195;&#8195;&#8195;See this: https://ubuntuhandbook.org/index.php/2021/07/disable-manufacturer-logo-show-boot-message-ubuntu/
+ 10) *VNC* In CLI, launch the remote desktop server with:  <br>
+ &#8195;&#8195;&#8195;x11vnc -forever -usepw -shared -ncache_cr<br>
+ &#8195;&#8195;&#8195;See this web page for setup and autostart:<br>
+ &#8195;&#8195;&#8195;https://askubuntu.com/questions/229989/how-to-setup-x11vnc-to-access-with-graphical-login-screen#274485<br><br>
+ 11) A Poem.<br>
+ &#8195;&#8195;&#8195;Rotten Apples, broken Windows, there's another option here.<br>
+ &#8195;&#8195;&#8195;Turning from the brainwashed masses, there stands Linux free and clear.<br>
+ &#8195;&#8195;&#8195;It has daemons, it needs tweaking, yes it has a learning curve.<br>
+ &#8195;&#8195;&#8195;Still it does what you command, unlike the others that you serve. - Paul Franklin 04/08/18 <br><br>
+ 12) Most user applications on can be found in &gt; /usr/share/applications<br><br>
+ 13) To check your operating system version (from root in CLI) type: cat  /etc/*release*<br><br>
+ 14) To create a desktop shortcut, right click on the menu item and select "add to desktop" or do it manually.<br>
+ &#8195;&#8195;&#8195;https://lkubaski.wordpress.com/2012/06/29/adding-lxde-start-menu-and-desktop-shortcuts/<br><br>
+ 15) Install VBOX to try other operating systems safely.<br><br>
+ 16) Firefox tweak link(s)  https://www.maketecheasier.com/28-coolest-firefox-aboutconfig-tricks/<br><br>
+ 17) To add or remove items from the Application Launch Bar (in the task bar after the CLI icon), right <br>
+ &#8195;&#8195;&#8195;click on CLI and click "Application Launch Bar Settings" (Should be top option.)<br><br>
+ 18) LXDE tweaks - Link 1 = https://www.youtube.com/watch?v=OsOo_ulnrlw<br><br>
+ 19) Update your device and reboot once a week for best results.<br><br>
+ 20) If you are using the Gnome desktop and there is no logout option. <br>
+ &#8195;&#8195;&#8195;Type the following in CLI to logout.gnome-session-quit<br><br>
+ 21) To see local wifi from CLI, type:<br>
+ &#8195;&#8195;&#8195;$ nmcli dev wifi<br><br>
+ 22) To change a usb drive name, use the "Disks" utility:<br>
+ &#8195;&#8195;&#8195;A) unmount the drive, right click on the square.<br>
+ &#8195;&#8195;&#8195;B) Go to options, click on the gears.<br>
+ &#8195;&#8195;&#8195;C) click on edit file system and rename<br>
+ &#8195;&#8195;&#8195;D) Remount the drive.<br>
+ &#8195;&#8195;&#8195;See this - https://askubuntu.com/questions/103686/how-do-i-rename-a-usb-drive#233681<br><br>
+ 23) To prevent eye strain, use a dark theme like ACL-DARK go to start&gt;settings&gt;appearence&gt;ARC-DARK<br>
+ &#8195;&#8195;&#8195;This will also switch the desktop icon labels back to normal and remove the boxes.<br><br>
+ 24) To see how much memory is in use of free, (at the CLI prompt) simply type free<br>
+ &#8195;&#8195;&#8195;To disable the swap file and use only physical ram (much faster) as root go to /etc/fstab and <br>
+ &#8195;&#8195;&#8195;comment out the line about the swap file by putting a # at the start of that line.<br><br>
+ 25) To find the ip address of a website, us nslookup. (Ex. $ nslookup google.com)<br><br>
+ 26) To free ram on linux (must be root) type (at #) sync; echo 1 &gt; /proc/sys/vm/drop_caches<br>
+ &#8195;&#8195;&#8195;Be sure to add this to crontab for regular cleaning and bes performance.<br>
+ &#8195;&#8195;&#8195;To do this once an hour (recommended) you would set the time for 0 */1 * * * <br>
+ &#8195;&#8195;&#8195;To disable or enable the swap file, use the "disks" utility.<br><br>
+ 27) To search for a file from CLI, (must be root) use    # find / -name "123" (Replace 123 with file name).<br>
+ &#8195;&#8195;&#8195;To see if a package is installed, type rpm -q  (ex. rpm -q firefox)<br>
+ &#8195;&#8195;&#8195;To see all installed packages, type:  apt list --installed<br><br>
+ 28) The XFCE shortcut to close an open window is CTL+F4.<br>
+ &#8195;&#8195;&#8195;More XFCE desktop shortcuts are here: <br>
+ &#8195;&#8195;&#8195;https://keyboardshortcuts.org/list-of-keyboard-shortcuts<br><br>
+ 29) Nautilus is the default file manager for some desktops but it has known bugs.<br>
+ &#8195;&#8195;&#8195;Verify that you have PCmanFM File manager installed. <br>
+ &#8195;&#8195;&#8195;You can do this from CLI or with dnfdragora like I did.<br><br>
+ 30) To use VSFTPD (very secure ftp deamon) see this video https://www.youtube.com/watch?v=DqVQFIFx1Zk<br>
+ &#8195;&#8195;&#8195;Unfortunately this fails to provide a proper gui so CLI is all it has. <br>
+ &#8195;&#8195;&#8195;NOTE! NO LONGER RECOMMENDED TO USE ANY REMOTE DESKTOP SERVICE 2024<br><br>
+ 31) To create a "quicklaunch" area to the right of the start button (in XFCE), right click to the task bar<br> 
+ &#8195;&#8195;&#8195;and select "Panel" then "add new items" then "Launcher". A launcher will appera at the right end of your <br>
+ &#8195;&#8195;&#8195;task bar. Next, right click on that launcher then left click on properties. Use the "+" to designate the <br>
+ &#8195;&#8195;&#8195;program to launch. Then,double click the program from that list and the launcher will link to it. Next, <br>
+ &#8195;&#8195;&#8195;right click on the new launcher and select move. Move the mouse to the location on the task bar where you <br>
+ &#8195;&#8195;&#8195;want it and left click to drop.<br><br>
+ 32) Sizing on drives and other storage media may be calculated in base 10 or base 2. We normally use base 10<br>
+ &#8195;&#8195;&#8195;but computers use base 2. See this link for clearification and why your drive may read smaller than expected.<br>
+ &#8195;&#8195;&#8195;https://blog.digilentinc.com/mib-vs-mb-whats-the-difference/   (ex. 250 GB = 232 GiB &amp; 3TB = 2.72848 TiB).<br><br>
+ 33) Install ffmpeg to manage and manipulate video. <br>
+ &#8195;&#8195;&#8195;See this: https://www.techgalery.com/2019/11/ffmpeg-commands-to-make-mirrored-video.html<br>
+ &#8195;&#8195;&#8195;and https://ffmpeg.org/documentation.html<br><br>
+ &#8195;&#8195;&#8195;To convert all mpg or avi files in a folder to mp4, navagate in CLI to the folder then type:<br>
+ &#8195;&#8195;&#8195;$ for i in *.mpg; do ffmpeg -i "$i" "${i%.*}.mp4"; done   (no need for root).<br>
+ &#8195;&#8195;&#8195;To batch convert mp4 to mp3 files in a folder, use this:<br>
+ &#8195;&#8195;&#8195;S for i in *.mp4; do ffmpeg -i "$i" "${i%.*}.mp3"; done   (no need for root).<br><br>
+ 34) Use sudo apt install lshw lshw-gui to install Hardware Lister diagnostic software with gui.<br>
+ &#8195;&#8195;&#8195;See - https://ezix.org/project/wiki/HardwareLiSter#Download<br><br>
+ 35) To view System Info. from CLI, use: # lshw -short &gt;/home/*username*/Desktop/lshw.txt  <br>
+ &#8195;&#8195;&#8195;(Of coarse, replace *username* with your real user name.)<br><br>
+ 36) Linux CLI commands - a short list<br>
+ &#8195;&#8195;&#8195;https://techhowdy.com/terminal-commands-for-linux/<br><br>
+ 37) To ping an address or site 3 times and stop, use ping www.google.com -c 3 (replace www.google.com with address)<br>
+ &#8195;&#8195;&#8195;https://vitux.com/linux-ping-command/<br><br>
+ 38) To eject the DVD drawer (if present), use eject /dev/cdrom   To close it, use  eject -t<br><br>
+ 39) To hide programs from a user,<br>
+ &#8195;&#8195;&#8195;A) SU to root in CLI   2)run pcmanfm   3) Go to /usr/share/applications<br>
+ &#8195;&#8195;&#8195;B) Select the application(s) that you wish to hide from other users.<br>
+ &#8195;&#8195;&#8195;C) Right click on the selected item(s) and click on permissions.<br>
+ &#8195;&#8195;&#8195;D) Set all 3 areas to "Only user and group".<br>
+ &#8195;&#8195;&#8195;E) Make sure all other users are in a seperate or different group than the owner.<br>
+ &#8195;&#8195;&#8195;Use the "Users and Groups" utility to easily manage those. Then do the above.<br><br>
+ 40) Panel add-on xfce4-weather-plugin is very useful and can be run in any panel.<br><br>
+ 41) To load Google Chrome in the background on startup for faster launching, <br>
+ &#8195;&#8195;&#8195;go to Start &gt; Settings &gt; Session and Startup &gt; Application Autostart &gt; Add<br>
+ &#8195;&#8195;&#8195;Name is  Google Chrome.  Command is  /usr/bin/google-chrome-stable --no-startup-window<br>
+ &#8195;&#8195;&#8195;Click ok and close windows then reboot to take affect.<br><br>
+ 42) Install hardinfo utility which has a gui and can give you lots of usefull computer information.<br><br>
+ 43) When running a web server (apache aka httpd) you can adjust how often log files are created by <br>
+ &#8195;&#8195;&#8195;using logrotate following this video: https://www.youtube.com/watch?v=0U2RMbzKUCY<br>
+ 
+<h1>SECTION C</h1>
+
+ Learned items since switching to Ubuntu + XFCE4 on 12.1.19.<br>
+ Most of the above notes are still usefull in Ubuntu (use apt not dnf in Ubuntu).<br>
+ Count starts over with the Xubuntu system. If asking a question about a numbered point,
+ be sure to specify section letter and point number.<br><br>
+
+ 01) Save a lot of steps by installing Xubuntu LTE.<br><br>
+ 02) Use the following as root to disable lock on sleep: gsettings set org.gnome.desktop.screensaver ubuntu-lock-on-suspend false<br><br>
+ 03) Ubuntu uses apt where Fedora uses DNF or YUM. Other commands are similar.(apt includes apt-get).<br><br>
+ 04) It is recommended to disable the Powersaver with: xset -dpms<br><br>
+ 05) Turn off screen blanking with: xset s off (see: https://linuxreviews.org/<br>
+ &#8195;&#8195;&#8195;HOWTO_turn_Screensavers_and_Monitor_Power_Saving_on_and_off)<br><br>
+ 06) Ubuntu installs .deb (Debian) packaged as apposed to the .rpm (Red Hat) packages of Fedora.<br><br>
+ 07) Install the following packages: vlc, google-chrome, libreoffice, gimp, audacity, DeVeDe, leafpad, synaptic, <br>
+ &#8195;&#8195;&#8195;brasero, screenfetch, Filezilla, PCmanFM, weather-plugin, blueman, catfish, kdenlive, vsftpd, httpd, xfburn, <br>
+ &#8195;&#8195;&#8195;xdotool, bleachbit, &amp; virtualbox.(Some may be native to your operating system. Check before installing.)<br><br>
+ 08) Ubuntu is not recommended for systems with less that 4GB of RAM. <br>
+ &#8195;&#8195;&#8195;(https://help.ubuntu.com/community/Installation/SystemRequirements)<br><br>
+ 09) To reach root on Ubuntu, simply use 'sudo -i' (without the apostrophies / 'single quotes').<br><br>
+ 10) SNAP is another software source. To download from snap, use: sudo snap install ... all else use: sudo apt install...<br><br>
+ 11) Use: sudo apt install dconf-editor to install a manager that tweaks your login/out menu. USE WITH CAUTION.<br><br>
+ 12) If the software manager cant install a package, sometimes CLI still can.<br><br>
+ 13) Add-ons to the XFCE toolbar are the same cross platform (ex: xfce4-weather-plugin)<br><br>
+ 14) Use: sudo apt autoremove to remove packages that are no longer needed.<br><br>
+ 15) There are many add-ons for XFCE, see: https://docs.xfce.org/start<br><br>
+ 16) Bash Scripts are just text files that have the first line of: "#!/bin/bash" used to automate commands.<br><br>
+ 17) Use a script to automate updates and turn 3 steps into 1. update, upgrade, and autoremove.<br><br>
+ 18) Avoid Microsoft addons like Powershell and Skype. Keep your system pure. Only GPL freeware.<br><br>
+ 19) Consolidate the desktop by moving launchers from the second panel into the first. Remove the second panel. (XFCE4).<br><br>
+ 20) To use ftp in passive mode from CLI us ftp -p (address).<br><br>
+ 21) For XFCE4 on a portable device, add: XFCE4-power-manager. Brightness control and more.<br><br>
+ 22) Other XFCE4 plug-ins are here: https://goodies.xfce.org/projects/panel-plugins/start<br><br>
+ 23) Set VSFTPD server to passive mode - https://serverfault.com/questions/421161/how-to-configure-vsftpd-to-work-with-passive-mode<br><br>
+ 24) The XFCE4 user guide online is here: https://docs.xfce.org/<br><br>
+ 25) Right click Ubuntu's workspace switcher &gt; workspace settings &gt; left click margins to correct full screen window overflow.<br><br>
+ 26) Install xdotool to automate mouse clicks and key presses. See http://xmodulo.com/simulate-key-press-mouse-movement-linux.html<br><br>
+ 27) To view the live mouse coordinates, run this is a new CLI: while true; do xdotool getmouselocation; sleep 0.2; clear; done<br><br>
+ &#8195;&#8195;&#8195;Taken from site: https://askubuntu.com/questions/346913/show-realtime-mouse-cursor-coordinates-cursor-mod-overlay-also-copy-to-c<br><br>
+ 28) After installing Ubuntu, but before xfce4, run # "apt install libexo-1-0"  this bridges the desktop and menu links.Or better just install Xubuntu.<br><br>
+ 29) To ping an ip address, be sure to add -c3 at the end (with the space) or you will get an unending ping cycle.<br><br>
+ 30) Ubuntu linux contains 'DD' just like Fedora. See this:  https://linuxhint.com/dd_command_linux/<br><br>
+ 31) For Brasero to work correctly, also install the following:<br>
+ &#8195;&#8195;&#8195;(This worked for me) from https://askubuntu.com/questions/1052993/how-to-install-libdvdcss-so-2-library-to-ubuntu-18-04<br>
+ &#8195;&#8195;&#8195;A) sudo apt install libdvdnav4 libdvdread4 gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly libdvd-pkg<br>
+ &#8195;&#8195;&#8195;B) sudo dpkg-reconfigure libdvd-pkg <br>
+ &#8195;&#8195;&#8195;C) sudo apt install ubuntu-restricted-extras<br><br>
+ 32) Install classicmenu-indicator to have a clean dropdown menu that loads faster. Or newer, whisker menu is even better.<br><br>
+ 33) If you run another command using sudo within five minutes of running the first one, you will not be asked for your password again.<br><br>
+ 34) Install exfat-fuse exfat-utils to read exFAT formatter drives.<br><br>
+ 35) If you run an apache webserver, make sure your root (often /var/www/html) contains the following four files.<br>
+  &#8195;&#8195;&#8195;index.css, HEADER.html, FOOTER.html, and .htaccess. This will affect the autoindex function of the webserver.<br><br>
+ 36) Ubuntu Gnome DE documentation: https://help.ubuntu.com/19.04/ubuntu-help/index.html<br><br>
+ 37) XFCE desktop documentation: https://docs.xfce.org/<br><br>
+ 38) REBOOT WEEKLY - all devices will perform much better with a weekly reboot.<br><br>
+ 39) To see a list of installed packages (in CLI) use: $ sudo apt list --installed<br>
+  &#8195;&#8195;&#8195;To search for a program in the list use |grep (program name)<br><br>
+ 40) Install the user manager for XFCE, run: $ sudo apt install gnome-system-tools -y<br><br>
+ 41) Only use LTS versions of Ubuntu. They are more stable.<br><br>
+ 42) Install your firewall and GUI with: sudo apt install firewalld firewall-config<br><br>
+ 43) When running the Apache2 or newer server, Take the following steps to secure a directory:<br>
+ &#8195;&#8195;&#8195;A) Create the .htpasswd file in /var/www/  (Will later contain users and passwords)<br>
+ &#8195;&#8195;&#8195;B) To add a user to the .htpasswd file, use $ htpasswd /var/www/.htpasswd USER (replace USER with desired user name.)<br>
+ &#8195;&#8195;&#8195;C) Once the above is done you can use the following .htaccess file in any directory to password protect it.<br>
+ &#8195;&#8195;&#8195;&#8195;Syntax of a password protection .htaccess file:<br>
+ &#8195;&#8195;&#8195;&#8195;Authname "Restricted Area"<br>
+ &#8195;&#8195;&#8195;&#8195;Authtype Basic<br>
+ &#8195;&#8195;&#8195;&#8195;AuthUserFile "/var/www/.htpasswd"<br>
+ &#8195;&#8195;&#8195;&#8195;require valid-user<br><br>
+ 44) There are many uses for .htaccess files, see this https://www.digitalocean.com/community/tutorials/how-to-use-the-htaccess-file<br><br>
+ 45) Use the following (as root) to update in CLI:  # apt update; apt upgrade -y; apt autoremove -y<br><br>
+ 46) Install OBS to record the screen, webcast your screen w/audio, or as a live video switcher and recorder.<br><br>
+ 47) Green screen tips https://www.youtube.com/watch?v=ZvTAOt1YRxM<br><br>
+ 48) Use the following to stop system crash messages: sudo mousepad /etc/default/apport  (set 1 to 0)<br><br>
+ &#8195;&#8195;&#8195;For more information, see: https://itsfoss.com/how-to-fix-system-program-problem-detected-ubuntu/<br><br>
+ 49) When using bleachbit to clean, NEVER use the SYSTEM boxes, this may damage your O/S especilly if run in root.<br><br>
+ 50) Here is a starter list of XFCE4 keyboard shortcuts: https://defkey.com/xfce-shortcuts.<br><br>
+ 51) To update the system from CLI, run this line as root&gt;  apt update; apt upgrade; apt autoremove; <br><br>
+ 52) To show boot process on startup in Ubuntu, follow these instructions:<br>
+ &#8195;&#8195;&#8195;http://ubuntuhandbook.org/index.php/2019/06/disable-purple-splash-screen-boot-ubuntu-18-04-higher/<br><br>
+ 53) To see the current running processes there are (at least) 2 commands.<br><br>
+ &#8195;&#8195;&#8195;TOP  http://manpages.ubuntu.com/manpages/precise/man1/top.1.html<br><br>
+ &#8195;&#8195;&#8195;PS   http://manpages.ubuntu.com/manpages/xenial/man1/ps.1.html<br><br>
+ 54) Ubuntu Manual pages are here: http://manpages.ubuntu.com/manpages/bionic/en/<br><br>
+ 55) How to Use Linux to Find the Names of the devices on your computer - Must read. Too much to put here.<br>
+ &#8195;&#8195;&#8195;https://www.lifewire.com/how-to-use-linux-to-find-the-names-of-the-devices-on-your-computer-4078068<br><br>
+ 56) How to generate a report of your hardawre information.<br>
+ &#8195;&#8195;&#8195;$ sudo lshw -html &gt;/home/(U)/Desktop/hardwareinfo.html<br>
+ &#8195;&#8195;&#8195;To search for certain words in the results, use sudo lshw | grep <search term=""><br><br>
+ 57) To run a ping every (N) seconds to verify your isp is doing their job, use this string in CLI:<br>
+ &#8195;&#8195;&#8195;ping -i3 8.8.8.8 -c30 | while read pong; do echo "$(date):$pong"; done<br>
+ &#8195;&#8195;&#8195;(-i stands for interval. Set the interval as needed. The last part is the time date stamp.)<br>
+ &#8195;&#8195;&#8195;(-c30 is how many pings will be run before the program stops. If removed, it will go on until you press ctl+C to stop.)<br>
+ &#8195;&#8195;&#8195;Use the following string in a minimized termnal to log a ping each second to NMR onthe desktop:<br>
+ &#8195;&#8195;&#8195;$ ping 8.8.8.8 | while read pong; do echo "$(date):$pong"; done &gt;/home/(U)/Desktop/NMR<br>
+ &#8195;&#8195;&#8195;You can incorporate this in a crontab job but it is not as efficient.<br><br>
+ 58) For UBUNTU use the following at the $ to make writing crontab jobs easier:  select-editor (choose nano).<br><br>
+ 59) In your clock properties string, use %n to wrap the clock to multi-line view like this:<br><br>
+ &#8195;&#8195;&#8195;%A %n%m/%d/%Y %n%I:%M:%S %p   This is helpful in a 2 row panel.<br><br>
+ &#8195;&#8195;&#8195;(Source: https://www.linuxquestions.org/questions/linux-desktop-74/how-to-format-mate-clock-applet-4175526286/)<br><br>
+ 60) To check your O/S version as of 2020/04/24, use this command: lsb_release -a  (No root needed.)<br><br>
+ 61) To upgrade your O/S from an older version, use 'sudo apt update' then  'sudo do-release-upgrade -d' (without the 's).<br><br>
+ 62) A stronger WIFI signal DOES NOT mean a faster data flow. Often the opposite. Repeaters lose data while showing a stronger stgnal.<br><br>
+ 63) To generate an ALPHABETICAL list on your desktop of a folder from termial, use the following command:<br>
+ &#8195;&#8195;&#8195;$ ls -f |sort &gt; /home/(U)/Desktop/Movies   This will put a file on your desktop with the list.<br>
+ &#8195;&#8195;&#8195;Change the user name and the directory to match the contents of your device.<br>
+ &#8195;&#8195;&#8195;More CLI commands are here: https://fossbytes.com/a-z-list-linux-command-line-reference/<br><br>
+ 64) In CLI,(*IMPORTANT* only in your home directory), using / after the name is a shortcut to the folder.<br>
+ &#8195;&#8195;&#8195;Example: $ /home/(U)/Desktop = $ Desktop/<br><br>
+ 65) To edit video on ubuntu we recommend KDENLIVE with the following added for dark theme: sudo apt-get install kde-style-breeze<br><br>
+ 66) Install MakeMXV to rip UHD DVDs and Standard DVDs <br>
+ &#8195;&#8195;&#8195;(Source: http://ubuntuhandbook.org/index.php/2019/09/install-makemkv-snap-ubuntu-18-04-19-04/)<br>
+ &#8195;&#8195;&#8195;MakeMKV PPA:<br>
+ &#8195;&#8195;&#8195;To install it via native Ubuntu .deb package, there’s a PPA repository that contains the software for all current Ubuntu   releases.<br>
+ &#8195;&#8195;&#8195;You can simply open CLI and run 3 commands one by one to add the PPA and install MakeMKV:<br>
+ &#8195;&#8195;&#8195;&#8195;&#8195;&#8195;A) sudo add-apt-repository ppa:heyarje/makemkv-beta<br>
+ &#8195;&#8195;&#8195;&#8195;&#8195;&#8195;B) sudo apt-get update<br>
+ &#8195;&#8195;&#8195;&#8195;&#8195;&#8195;C) sudo apt-get install makemkv-bin makemkv-oss<br><br>
+ 67) Download and buy 4KVideoDownloader ($15) very good for video and audio downloading. <br><br>
+ 68) To find out the hardware on your computer install: hwinfo    To search the results, use: hwinfo | grep -i <search term=""><br><br>
+ 69) Remove extra desktop environments (DEs) to make loading faster. <br><br>
+ &#8195;&#8195;&#8195;Multiple DEs add clutter to the boot process and menus. This slows your boot time.<br><br>
+ 70) To see what packages are installed from CLI, use:  $ apt list-installed. To search for a particular package, see #68<br>
+ &#8195;&#8195;&#8195;See this for more: https://itsfoss.com/list-installed-packages-ubuntu/<br><br>
+ 71) Java is not the same as JavaScript. <br>
+ &#8195;&#8195;&#8195;Java is stable. JavaScript pollutes, slows down, and destabilizes the programs in which it is used. So dont use it.<br><br>
+ 72) The "main stream" is a sewer. <br>
+ &#8195;&#8195;&#8195;Just because "every one is doing it" does not make a program good or a computer language worthwhile.<br><br>
+ 72) To see your real time memory usage from CLI, use  watch -n 1 cat /proc/meminfo<br><br>
+ 73) Fixing “The following packages have been kept back” Error<br>
+ &#8195;&#8195;&#8195;The fix for this error is really simple. <br>
+ &#8195;&#8195;&#8195;All you have to do is to use the apt install command with package or packages in the question:<br>
+ &#8195;&#8195;&#8195;sudo apt install package_name<br><br>
+ 74) How to kill a program which has hung. In CLI, type pkill -9 name. Replace name with the process name.<br>
+ &#8195;&#8195;&#8195;More information is here &gt; https://www.linux.com/training-tutorials/how-kill-process-command-line/<br><br>
+ 75) appimage files are programs which can run without installation and contain all files needed within one file. <br>
+ &#8195;&#8195;&#8195;More information is here &gt; https://appimage.org/<br><br>
+ 76) To boot to the desktop of a certain user without a lock screen, from root, edit the following file: /etc/gdm3/custom.conf<br>
+ &#8195;&#8195;&#8195;Un-comment (remove the #) before the AutomaticLoginEnable and the AutomaticLogin lines.<br>
+ &#8195;&#8195;&#8195;Set the AutomaticLoginEnable = true and the AutomaticLogin = <username> then save and reboot. <br>
+ &#8195;&#8195;&#8195;To restore the lock screen, switch these settings back to commented out with a # at the start of these 2 lines.<br><br>
+ 77) To run speed test from command line in linux, <br>
+ &#8195;&#8195;&#8195;see this &gt; https://vitux.com/test-your-internet-speed-through-ubuntu-command-line/<br><br>
+ 78) To compare the contents of 2 folders (from CLI aka CLI) use: diff -q <br>
+ &#8195;&#8195;&#8195;https://www.tecmint.com/compare-find-difference-between-two-directories-in-linux/<br><br>
+ 79) To add a font to XUBUNTU, use the following steps.<br>
+ &#8195;&#8195;&#8195;A) Int CLI, launch sudo pcmanfm (or the name of your file manager).<br>
+ &#8195;&#8195;&#8195;B) Navigate to /usr/share/fonts/truetype<br>
+ &#8195;&#8195;&#8195;C) Create a folder with the name of your .ttf file<br>
+ &#8195;&#8195;&#8195;D) Place  your .ttf file in the folder.<br>
+ &#8195;&#8195;&#8195;E) Open LibreOffice Writer or similar and select the font you added.  That's it. It really is that easy.<br><br>
+ 80) To check installed fonts from CLI, use the command: fc-list<br>
+ &#8195;&#8195;&#8195;https://www.cyberciti.biz/tips/quickly-list-all-available-fonts.html#:~:text=Try%20fc%2Dlist%20command.,font%20is%20installed%20or%20not.<br>
+ &#8195;&#8195;&#8195;https://www.youtube.com/watch?v=rLZk7cWbycI = Font Management On Linux<br>
+ &#8195;&#8195;&#8195;Use this to just list fonts (CLI) in liunx.  fc-list : family spacing | sort | uniq <br>
+ &#8195;&#8195;&#8195;When done, use the following to update the known fonts on the system:  sudo fc-cache -fv<br><br>
+ 81) To compile (build) a C++ program use the following pattern:<br>
+ &#8195;&#8195;&#8195;g++ '/home/(u)/Desktop/age.cpp' -o /home/(u)/Desktop/TEST<br>
+ &#8195;&#8195;&#8195;Replace "age.cpp" with your .cpp file and "Test" with your desired output name.The "-o" not -0, lets you name the output.<br><br>
+ 82) Cat / Zcat: To view a text file from cli, use "cat" then path to file. If file is zipped, ie *.gz, use zcat to read.<br><br>
+ 83) To disable MOTD (Message Of The Day) section in CLI (Command Line Interface).<br>
+ &#8195;&#8195;&#8195;From: https://askubuntu.com/questions/804095/how-do-i-disable-the-message-of-the-day-motd-on-ubuntu-14-04<br>
+ &#8195;&#8195;&#8195;For SSH connections, edit /etc/pam.d/sshd and comment out the pam_motd lines to remove the messages when entering through ssh.<br>
+ &#8195;&#8195;&#8195;For Local connections, comment out these lines in /etc/pam.d/login<br>
+ &#8195;&#8195;&#8195;#session    optional    pam_motd.so motd=/run/motd.dynamic<br>
+ &#8195;&#8195;&#8195;#session    optional    pam_motd.so noupdate<br><br>
+ 84) When running updates in CLI, if you run upgrade and receive "The following packages have been kept back:" message,<br>
+ &#8195;&#8195;&#8195;Run the following command to see if they are 100% ready for release yet or not.<br>
+ &#8195;&#8195;&#8195;apt show -a $(apt list --upgradable 2&gt;&amp;1 | grep / | cut -d/ -f1) 2&gt;&amp;1 | grep Phased | sort -n | uniq -c<br>
+ &#8195;&#8195;&#8195;From: https://askubuntu.com/questions/601/the-following-packages-have-been-kept-back-why-and-how-do-i-solve-it<br><br>
+ 85) Here is a "cheat sheet" list of CLI (bash CLI) commands. https://ss64.com/bash/<br><br>
+ 86) Using CLI to search for files by size? Use find. <br>
+ &#8195;&#8195;&#8195;From: https://linuxnightly.com/find-files-based-on-size-in-linux/<br>
+ &#8195;&#8195;&#8195;Example = $ find . -size -2G<br><br>
+ 87) No window border? No problem. If using the XFCE Desktop Environment (DE) like Xubuntu or on another Linux distro:<br>
+ &#8195;&#8195;&#8195;From: https://unix.stackexchange.com/questions/156435/how-can-i-make-windows-easier-to-resize-in-xfce<br><br>
+ 88) More Keyboard Shortcuts: <br>
+ &#8195;&#8195;&#8195;A) To change focus or choose a different active window to be on top:<br>
+ &#8195;&#8195;&#8195;Hold ALT and tap Tab. Tap tab while holding alt to select an active window, release Alt.<br>
+ &#8195;&#8195;&#8195;B) To move to the top of a document, use Ctrl+Home key, to move to the end, use Ctrl+end.<br>
+ &#8195;&#8195;&#8195;C) Check your keyboard settings for current system keyboard shortcuts or to add new ones,<br>
+ &#8195;&#8195;&#8195;D) ctl+z = undo, ctl+c = copy, ctl+v = paste, super+d = show desktop (toggle), ctl+f = find, etc.<br>
+ &#8195;&#8195;&#8195;E) No window border? No problem. If using the XFCE Desktop Environment (DE):<br>
+ &#8195;&#8195;&#8195;From: https://unix.stackexchange.com/questions/156435/how-can-i-make-windows-easier-to-resize-in-xfce<br>
+ &#8195;&#8195;&#8195;2 options. Use Alt+left mouse button to move a window or use Alt+right mouse button to resize a window<br>
+ &#8195;&#8195;&#8195;*or*<br>
+ &#8195;&#8195;&#8195;Press Alt+space then R for resize or M for Move.<br>
+ &#8195;&#8195;&#8195;Use arrows on keyboard to resize / move. Left click mouse to save.<br><br>
+ 89) To create round corners on the XFCE panel using CSS code, follow these steps.<br>
+ &#8195;&#8195;&#8195;A) *Important* add 2 separators to each end of the panel and set those to transparent.<br>
+ &#8195;&#8195;&#8195;(CSS will not override square icon feilds.)<br>
+ &#8195;&#8195;&#8195;B) Go to your theme of choice (example: /usr/share/themes/Adwaita-dark/gtk-3.0/gtk.css).<br>
+ &#8195;&#8195;&#8195;C) In that file add the following 2 lines: <br>
+ &#8195;&#8195;&#8195;&#8195;&#8195;&#8195;.xfce4-panel {border-radius: 20px;}  <br>
+ &#8195;&#8195;&#8195;&#8195;&#8195;&#8195;.xfce4-panel #XfcePanelWindow {border-radius: 20px;}<br><br>
+ &#8195;&#8195;&#8195;Setting the panel window to a matching radius fixes the unwanted background corners issue.<br>
+ &#8195;&#8195;&#8195;After you make your changes, use: xfce4-panel -r  to reload the panel with the new settings.<br>
+ &#8195;&#8195;&#8195;See this link for more:  https://www.reddit.com/r/xfce/comments/kghsiz/round_xfce4panel/<br><br>
+ 90) Take advantage of menus supplied by icons in the task bar. Right click on one and see the features it provides.<br><br>
+ 91) While the speed of all hardware is important, many people overlook hard drive read/write speed and focus on the CPU and ram.<br>
+ &#8195;&#8195;&#8195;Make sure all machines that you buy 2022 or newer have an "M.2 NVME" (not sata) drive on the mother board as their primary, operating system, drive.<br><br>
+ 92) To convert propriatary docx files to the universal pdf format, install libreoffice 7.4 then use the following line:<br>
+ &#8195;&#8195;&#8195;libreoffice7.4 --writer --convert-to pdf 'example.docx'&#8195;Replace example.docx with the full name of your docx file.<br><br> 
+ 93) Android phones run on (Aarch) linux. Use a CLI like Termux (free) and update that linux version regularly.<br>
+ &#8195;&#8195;&#8195;This will greatly extend the life of your phone with the latest drivers and security patches at the core,<br>
+ &#8195;&#8195;&#8195;not just the superficial front end updates from Google Play. If your phone is *NOT* under warrenty,<br>
+ &#8195;&#8195;&#8195;consider rooting your phone for full control. Google that for more information.<br><br>
+ 94) When performing a CLI liux update (sudo apt update; sudo apt upgrade -y) if you see a note abeout ESM packages not updated, run:<br>
+ &#8195;&#8195;&#8195;sudo mv /etc/apt/apt.conf.d/20apt-esm-hook.conf /etc/apt/apt.conf.d/20apt-esm-hook.conf.disabled<br>
+ &#8195;&#8195;&#8195;From: https://askubuntu.com/questions/1452519/what-are-the-services-apt-news-and-esm-cache-and-how-do-i-disable-them/<br><br>
+ 95) To create a simple link on a web server that redirects to a long or unrecognizable link, create an html file with this in it.<br>
+ &#8195;&#8195;&#8195;Here is the example. http://ss11.sytes.net/public/redirect.html<br>
+ &#8195;&#8195;&#8195;A) Replace the URL (http://...) in that file with the link you wish to load when the file is called.<br>
+ &#8195;&#8195;&#8195;B) Name the file something short and clear.<br>
+ &#8195;&#8195;&#8195;C) Your file name (on Linux) does not even need the .html suffix. it will work as a single word file name.<br><br> 
+ 96) When using OBS and Bluetooth earbuds, to record from the mic in the earbud, follow these steps.<br>
+ &#8195;&#8195;&#8195;A) Pair and connect your Bluetooth device (must have installed mic of coarse).<br>
+ &#8195;&#8195;&#8195;B) Left click on the Bluetooth icon in the taskbar (panel), then left  click "Devices".<br>
+ &#8195;&#8195;&#8195;C) Right click on your connected device and right click on "Audio Profile".<br>
+ &#8195;&#8195;&#8195;D) IMPORTANT! - Choose Handsfree Head Unit"  NOT  "High Fidelity Playback".<br>
+ &#8195;&#8195;&#8195;E) Add filters to the audio source. Use gain and limiter filters as needed. Will vary by device.<br><br>
+ 97) When using a Googe Chrome account, be sure to keep active sessions to a minimum for securtiy.<br>
+ &#8195;&#8195;&#8195;A) Open <a href="https://myaccount.google.com/device-activity?continue%253Dhttps%3A%2F%2Fmyaccount.google.com%2Fsecurity%3Fhl%25253Den%2526hl%253Den%26hl%3Den&amp;hl=en"><b>this</b></a> in Google Chrome.<br>
+ &#8195;&#8195;&#8195;B) Sign out of any devices that you are not currently using.  Check this daily for best security.<br><br>
+ 98) Some programs are installed automaticly that we do NOT want on our systems. They will be listed here and we highly recommend removing them.<br>
+ &#8195;&#8195;&#8195;A) unattended-upgrades   -   This package will waste ram and cpu in the background. Crontab can schedue an update anytime.<br><br>
+ 99) Using CLI to zip or unsip files is easy. Most Linux versions have the Zip and Unzip utilities already installed.<br>
+ &#8195;&#8195;&#8195;The syntax is:  zip filename.zip  file1 file2 file3.<br>
+ &#8195;&#8195;&#8195;To Unzip just use:  unzip filename.zip<br>
+ &#8195;&#8195;&#8195;As usual, the output will be taken from and placed in your current directory.<br>
+ &#8195;&#8195;&#8195;To zip a folder and it's contents, use: zip newzipfile.zip foldername -r<br><br>
+ 100) To change the mime type (.txt, etc.) of multiple files in a folder, use this:<br>
+ &#8195;&#8195;&#8195;A) Install rename utility: sudo apt install rename<br>
+ &#8195;&#8195;&#8195;B) Here is an example of the syntax:  rename 's/.txt/.odt/' *.txt   (command, action, filetype)<br>
+ &#8195;&#8195;&#8195;C) More info here:  https://www.howtogeek.com/423214/how-to-use-the-rename-command-on-linux/<br><br>
+ 101) In the Linux GUI (Graphical User Interface) go to &gt; Start&gt;Settings&gt;Session and Startup&gt;Application Autostart.<br>
+ &#8195;&#8195;&#8195;Search on Google for items that you may not need to run every time on startup and uncheck them.<br>
+ &#8195;&#8195;&#8195;For example I use only 9 of the 50 optional startup items there.<a href="http://ss11.sytes.net/Session1.jpg"> SEE THIS.</a><br><br>
+ 102) To empty the trash for the current user from CLI, use:  rm -rf ~/.local/share/Trash/*<br>
+ &#8195;&#8195;&#8195;See: https://askubuntu.com/questions/468721/how-can-i-empty-the-trash-using-terminal#468722<br><br>
+ 103) When using google chrome on Linux or other system, keep logged in sessions to a minimum for security.<br>
+ &#8195;&#8195;&#8195;Go to this link to see how many current active sessions you have and to log out of them remotely:<br>
+ &#8195;&#8195;&#8195;https://myaccount.google.com/device-activity?continue=https%3A%2F%2Fmyaccount.google.com%2Fsecurity<br><br>
+ 104) In Linux, you can uninstall just the program with "sudo apt remove (name). But this does not remove config and other related files.<br>
+ &#8195;&#8195;&#8195;To completely remove a program on linux, use "sudo apt purge (name)"<br>
+ &#8195;&#8195;&#8195;See: https://itsfoss.com/apt-remove-purge/<br><br> 
+ 105) Command Line Interface (CLI) plus Graphical User Interface (GUI) = Hybrid user and much less time wasted typing.<br>
+ &#8195;&#8195;&#8195;Example.<br>
+ &#8195;&#8195;&#8195;A) Open a browser window to a directory of files.<br>
+ &#8195;&#8195;&#8195;B) Open a CLI (Termianl) and cd to Desktop.<br>
+ &#8195;&#8195;&#8195;C) In the CLI, type wget followed by a space.<br>
+ &#8195;&#8195;&#8195;D) Drag a file from the browser window (GUI) to the space after wget in the CLI.<br>
+ &#8195;&#8195;&#8195;E) Press enter in the CLI and see the file download to your desktop. Helpfil in scripts.<br><br>
+ 106) If you have any issues with the XFCE panal (aka toolbar / taskbar) displaying properly, try:  xfce4-panel -r   to reset it.<br><br>
+ 107) To see the built in manual information for any CLI command, type:  man (command name). Example: $man apt <br><br>
+ 108) To copy a Graphcal File Manager (GFM) folder to a terminal (CLI) prompt, try this with XFCE:<br>
+ &#8195;&#8195;&#8195;A) Open a CLI window next to your GFM window.<br>
+ &#8195;&#8195;&#8195;B) Drag the folder or file icon into the CLI at the prompt.<br>
+ &#8195;&#8195;&#8195;C) Use this after any CLI command like: nano, wget (for files), or any standard CLI command.<br> 
+ &#8195;&#8195;&#8195;Note - This works when "Copy File Path" does not.<br><br>
+ 109) When writing a bash script for linux which includes the user name but must be comapatable on multple machines with different user names,<br>
+ &#8195;&#8195;&#8195;insert the following syntax; $USER  (Example: /home/$USER/Documents) Yes it must me capitolized.<br>
+ &#8195;&#8195;&#8195;See this: https://askubuntu.com/questions/802733/environment-variable-for-username<br><br>
+ 110) To check your boot up time in Linux, (from CLI) use:<br>
+ &#8195;&#8195;&#8195;A) systemd-analyze &lt; This will reveal load boot time.<br>
+ &#8195;&#8195;&#8195;B) systemd-analyze blame &lt; This will show you what loaded and the time each part took.<br>
+ &#8195;&#8195;&#8195;C) systemd-analyze critical-chain &lt; This will show you the progress to the target and the time it took.<br>
+ &#8195;&#8195;&#8195;For more, see this:  https://askubuntu.com/questions/1284302/is-it-possible-to-make-ubuntu-20-04-boot-faster<br<br>
+ 111) To live monitor a log file of a server, follow these steps:<br>
+ &#8195;&#8195;&#8195;A) SSH into the server and log in as root.<br>
+ &#8195;&#8195;&#8195;B) CD to the directory with the log file.<br>
+ &#8195;&#8195;&#8195;C) Type: tail -f (log file name) (not compressed file.)<br><br>
+ 112) To create a live monitor file of the Apache2 webserver, type: /var/log/apache2# tail -f other_vhosts_access.log &gt;&gt; /var/www/html/public/log.txt<br>
+ &#8195;&#8195;&#8195;This must be done as root on the machine with the server. This requires an open bash session.<br><br>
+ 113) To log in to a remote server automaticly in CLI or in a script, use the following syntax:<br>
+ &#8195;&#8195;&#8195;Install sshpass on your local machine.<br>
+ &#8195;&#8195;&#8195;A) sshpass -p password ssh username@server<br>
+ &#8195;&#8195;&#8195;B) To login to a specific directory, add the following syntax.<br>
+ &#8195;&#8195;&#8195;C) Example  sshpass -p password ssh -t username@server  "cd ~/Desktop; bash -l"<br>
+ &#8195;&#8195;&#8195;The result of the above is user@server:~/Desktop$<br>
+ &#8195;&#8195;&#8195;D) Change the path in the example above to reflect the directory you wish to enter on connection.<br>
+ &#8195;&#8195;&#8195;See:  https://stackoverflow.com/questions/626533/how-can-i-ssh-directly-to-a-particular-directory<br>
+ &#8195;&#8195;&#8195;See: https://www.cyberciti.biz/faq/linux-unix-applesox-ssh-password-on-command-line #:~:text=You%20need%20to%20use%20the,but%20in%20non%2Dinteractive%20mode.<br><br>
+ 114) To download HD videos from Youtube or vimeo, with yt-dlp, use the following:<br>
+ &#8195;&#8195;&#8195;yt-dlp --merge-output-format mp4 -f "bestvideo+bestaudio[ext=m4a]/best" (url)<br>
+ &#8195;&#8195;&#8195;For normal quality downloads, use the following:<br>  
+ &#8195;&#8195;&#8195;yt-dlp -f b (url) See: https://www.geeksforgeeks.org/download-youtube-videos-using-yt-dlp/<br>
+ &#8195;&#8195;&#8195;Use yt-dlp URL --write-thumbnail  To just download the video and the thumbnail.<br>
+ &#8195;&#8195;&#8195;Use yt-dlp URL --write-thumbnail --skip-download To only download a thumbnail. <br> 
+ &#8195;&#8195;&#8195;Use yt-dlp URL -x --audio-format mp3  to save a video as an mp3 file.<br><br> 
+ 115) If you set a machine to auto login and want to switch it back, follow these steps:<br>
+ &#8195;&#8195;&#8195;A) Open a terminal window and log in as root.<br>
+ &#8195;&#8195;&#8195;B) Use groups (user name) without parentheses to see what groups your user belongs to.<br>
+ &#8195;&#8195;&#8195;C) Look for group nopasswdlogin. If there, we need to delete it by the next step.<br>
+ &#8195;&#8195;&#8195;D) Type:  gpasswd -d nopasslogin (user name). Then reboot. May not take effect until reboot.<br>
+ &#8195;&#8195;&#8195;The main reason one would want to go back to a login with password is that this unlocks the keyring and other things.<br>
+ &#8195;&#8195;&#8195;If set to autologin, the user will still be asked to unlock the keyring so why not do it all at once?<br>
+ &#8195;&#8195;&#8195;Source: https://www.tecmint.com/add-or-remove-user-from-group-in-linux/<br><br>
+ &#8195;&#8195;&#8195;To DL one track out or a range of a playlist with yt-dlp, use --playlist-start 9 --playlist-end 9 (replace 9 with track number or range.)<br>
+ &#8195;&#8195;&#8195;Source: https://askubuntu.com/questions/1074697/how-can-i-download-part-of-a-playlist-from-youtube-with-youtube-dl<br><br>
+ 116) To add a user in Linux from cli as root, use: adduser (username). To remove a user, type: deluser (username).<br>
+ &#8195;&#8195;&#8195;See : https://www.tecmint.com/add-or-remove-user-from-group-in-linux/<br><br>
+ 117) To display the full name (not trunkated) of the desktop icon labels, try this:<br>
+ &#8195;&#8195;&#8195;A) Type: nano ~/.conf/gtk-3.0/gtk.css<br>
+ &#8195;&#8195;&#8195;B) Paste the following in that file:  * {  -XfdesktopIconView-ellipsize-icon-labels: 0;}<br>
+ &#8195;&#8195;&#8195;C) Save, exit, log-out, log-in, see the change. To revert, remove the line you just added.<br><br>
+ 118) Use the following to rip a dvd to iso with Linux DD:<br>
+ &#8195;&#8195;&#8195;A) Determine the drive name (example /dev/sr1) with: lsblk |grep rom<br>
+ &#8195;&#8195;&#8195;B) Determine the volume and block size with: isoinfo -d -i /dev/sr1 | grep -i -E 'block size|volume size'<br>
+ &#8195;&#8195;&#8195;C) Use DD to rip the file: dd if=/dev/sr1 of=/home/user name/Desktop/name.iso bs=2048 count=2585504 status=progress<br><br>
+ 119) Use xllvnc server for remote desktop sharing. This has a gui but can run from cli with:<br>
+ &#8195;&#8195;&#8195;x11vnc -passwd (your-password) -noxdamage -forever<br><br>
+ 120) Use the following to list installed packages using the dpkg utility.<br>
+ &#8195;&#8195;&#8195;dpkg --get-selections | grep -v "deinstall" | cut -f1<br><br>
+ 121) To turn off the counterprouctive password syntax requirements:<br>
+ &#8195;&#8195;&#8195;A) Open terminal and switch to root.<br>
+ &#8195;&#8195;&#8195;B) Type nano /etc/pam.d/common-password<br>
+ &#8195;&#8195;&#8195;C) Replace:  password    [success=1 default=ignore]  pam_unix.so obscure yescrypt<br>
+ &#8195;&#8195;&#8195;&#8195;With:     password    [success=1 default=ignore]  pam_unix.so minlen=1 sha512<br>
+ &#8195;&#8195;&#8195;D) Press ctl+s to save and ctl+x to exit. Now you can use any password and any length.<br>
+ &#8195;&#8195;&#8195;See:  https://askubuntu.com/questions/113682/how-to-change-disable-password-complexity-test-when-changing-password<br><br>
+ 122) To make things simple, add aliases to the bottom of the .bashrc file.<br>
+ &#8195;&#8195;&#8195; Instead of typing: sudo apt update; sudo apt upgrade -y; sudo apt autoremove -y<br>
+ &#8195;&#8195;&#8195; every time you do an update (or any other long command string) create a shortcut in .bashrc with alias<br>
+ &#8195;&#8195;&#8195; use nano to edit the .bashrc file and place the alias string at the bottom of the file.<br>
+ &#8195;&#8195;&#8195; In this case it would be: alias up='sudo apt update; sudo apt upgrade -y; sudo apt autoremove -y'<br>
+ &#8195;&#8195;&#8195; Next time you open terminal, use the up command. Restart your terminal for these changes to take sffect.<br><br>
+ 123) Anti virus software is not needed on Linux but a firewall is a very good idea. We recommend UFW. (Uncomplicated Firewall).<br>
+ &#8195;&#8195;&#8195; A) install ufw and gufw (the latter is a gui if desired but not required for advanced users)<br>
+ &#8195;&#8195;&#8195; B) In CLI, switch to root and type systemctl enable ufw<br>
+ &#8195;&#8195;&#8195; C) The graphical interface must be launched as root. Type: $ sudo gufw<br>
+ &#8195;&#8195;&#8195; Search youtube for more.<br><br>
+ 124) If your keyboard does not have indicators to show caps lock and number lock status, see this script<br>
+ &#8195;&#8195;&#8195; from: https://forums.debian.net/viewtopic.php?t=152873<br>
+ &#8195;&#8195;&#8195; #!/bin/bash<br>
+ &#8195;&#8195;&#8195; status=$(xset -q | grep Caps | awk '{print $2 $3 $4, $6 $7 $8}')<br>
+ &#8195;&#8195;&#8195; PANEL="<txt>$status</txt>"<br>
+ &#8195;&#8195;&#8195; TOOLTIP="<tool>"<br>
+ &#8195;&#8195;&#8195; TOOLTIP+="Caps lock and number lock status"<br>
+ &#8195;&#8195;&#8195; TOOLTIP+="</tool>"<br>
+ &#8195;&#8195;&#8195;   echo -e "${PANEL}"<br>
+ &#8195;&#8195;&#8195;   echo -e "${TOOLTIP}"<br><br>
+ &#8195;&#8195;&#8195; I did a little research and experimentation and came up with a simpler, double stack option in the script:<br>
+ &#8195;&#8195;&#8195; #!/bin/bash<br>
+ &#8195;&#8195;&#8195; status1=$(xset -q | grep Caps | awk '{print $2,$4}')<br>
+ &#8195;&#8195;&#8195; status2=$(xset -q | grep Caps | awk '{print $6, $8}')<br>
+ &#8195;&#8195;&#8195; PANEL="<txt> $status1 \n $status2 </txt>"; echo -e "${PANEL}"<br>
+ &#8195;&#8195;&#8195; Use tip 125 below to load this script into the xfce panel.<br><br>
+ 125) You can use a GenMon or (Generic Monitor) xfce panel plugin to display the output of a script in the panel.<br>
+ &#8195;&#8195;&#8195; Source: https://docs.xfce.org/panel-plugins/xfce4-genmon-plugin/start<br><br>
+ 126) To convert a text file to pdf, use libreoffice headless from cli. <br>
+ &#8195;&#8195;&#8195; A) cd to the directory of the file (ex: Desktop).<br>
+ &#8195;&#8195;&#8195; B) Type:  libreoffice --headless --convert-to pdf filename.ext<br><br>
+ 127) In Linux Ubuntu cli from $, here are a few commands to manage and view groups.<br>
+ &#8195;&#8195;&#8195; A) Type: groups username to view the groups your user is a part of.<br>
+ &#8195;&#8195;&#8195; B) Type: sudo adduser username groupname  to add a valid user to the group.<br>
+ &#8195;&#8195;&#8195; C) Type: sudo deluser username groupname  to delete a user from a group.<br>
+ &#8195;&#8195;&#8195; Source: https://www.tecmint.com/add-or-remove-user-from-group-in-linux/<br>
+ &#8195;&#8195;&#8195; Source: https://shorturl.at/knT56<br><br>
+ 128) Linux is case sensative. Stop, sTop,stOp,stoP,StOp,sToP, STop,StoP, etc. are all different files.<br><br>
+ 129) The Linux trash folder is located in each user folder at: ~/.local/share/Trash/files/<br><br>
+ 130) In the CLI,  ~/  is short hand for /home/$USER/...<br><br>
+ 131) In the CLI, * is a wild card. So to view all of the  .txt  files in a folder, type:  ls *.txt<br><br>
+ 132) In the CLI, type: tree directory to see a tree of folders and files<br><br>
+ 133) When using the THUNAR file manager to access the files on a remote server, you may need to reload the file manager<br>
+ &#8195;&#8195;&#8195;to connect if you receive error messages when choosing a remote folder. To do this use: thunar -q &amp;&amp; thunar &amp;<br>
+ &#8195;&#8195;&#8195;otherwise you would have to log out and log back in to gain access to these remote folders and files.<br>
+ &#8195;&#8195;&#8195;This also applies to other file managers like PCMANFM and others.<br><br>
+ 134) Here is an explanation regarding the use of  -  vs  -- in CLI commands: <br>
+ &#8195;&#8195;&#8195;Source: https://askubuntu.com/questions/492544/what-are-the-differences-between-and-in-commands<br>
+ &#8195;&#8195;&#8195;As explained above be careful to use the exact syntax. Example: -R and -r provide different results<br><br>
+ 135) To automaticly enable number lock on at boot (not after loggin) follow these steps using CLI:<br>
+ &#8195;&#8195;&#8195;A) $ sudo gedit /usr/share/lightdm/lightdm.conf.d/50-xubuntu-numlock.conf<br>
+ &#8195;&#8195;&#8195;B) Paste this in that file: <br>
+ &#8195;&#8195;&#8195; [Seat:*]<br>
+ &#8195;&#8195;&#8195;#greeter-setup-script=xubuntu-numlockx<br>
+ &#8195;&#8195;&#8195;greeter-setup-script=/usr/bin/numlockx on<br>
+ &#8195;&#8195;&#8195;Source: https://askubuntu.com/questions/1240734/how-can-i-set-num-lock-on-as-the-boot-default-in-ubuntu-20-04<br><br>
+ 136) Handbrake for ripping DVDs on linux requires the decryption program - libdvdcss.<br>
+ &#8195;&#8195;&#8195; Source: https://askubuntu.com/questions/1094062/libdvd-pkg-apt-get-check-failed-you-may-have-broken-packages-aborting<br><br>
+ 137) To unzip the contents of multiple zip files into one single folder:<br>
+ &#8195;&#8195;&#8195;A) Place all of the zip files in a new folder.<br>
+ &#8195;&#8195;&#8195;B) cd to that folder.<br>
+ &#8195;&#8195;&#8195;C) Use this command from CLI:  $ unzip '*.zip' -d combined<br>
+ &#8195;&#8195;&#8195;D) This will create a subfolder called "combined" with the decompressed contents af all zip files in it.<br>
+ &#8195;&#8195;&#8195;Source: https://superuser.com/questions/1255221/how-to-unzip-multiple-zip-files-into-a-single-directory-structure-e-g-google-d<br><br>
+ 138) To create thumbnails of all of the pictures in a folder using CLI: <br>
+ &#8195;&#8195;&#8195;A) install "imagemajick" <br>
+ &#8195;&#8195;&#8195;B) cd to the folder with the pictures. <br> 
+ &#8195;&#8195;&#8195;C) run "convert -thumbnail 200x200 *.jpg thumb.jpg" <br>
+ &#8195;&#8195;&#8195;Source: https://www.cyberciti.biz/tips/howto-linux-creating-a-image-thumbnails-from-shell-prompt.html#comment-19317<br>
+ &#8195;&#8195;&#8195;and https://linuxier.com/17-simple-steps-to-install-imagemagick-on-ubuntu/<br><br>
+ 139) Using imagemajick to create web pages of thumbnails. Use "convert" not "majick".<br>
+ &#8195;&#8195;&#8195;Read this first - https://askubuntu.com/questions/1315603/where-is-the-magick-command-of-imagemagick.<br>
+ &#8195;&#8195;&#8195;Then see this - https://legacy.imagemagick.org/Usage/thumbnails/#html<br><br>
+ 140) Use "xdg-open" followed by a file path to open that file with the default designated program for files of that type.<br>
+ &#8195;&#8195;&#8195;Example xdg-open http://google.com will open google in your default browser.<br><br>
+ 141) To call the default CLI app, use: x-terminal-emulator. <br>
+ &#8195;&#8195;&#8195;To launch a command in a new terminal window, use:  x-terminal-emulator -e sudo "command".<br><br>
+ 142) To find the biggest files on your drive, use:  "du -aBM |sort -nr |head -n 10" without the quotes.<br>
+ &#8195;&#8195;&#8195;Source: https://www.tomshardware.com/how-to/find-large-files-linux<br><br>
+ 143) EXTREMELY IMPORTEANT!!!<br>
+ &#8195;&#8195;&#8195;There is NO SUCH THING as secure remote control. My server has been attacked and reloaded almost from scratch 2 times in 33 years.<br>
+ &#8195;&#8195;&#8195;The first by an encrypted VNC connection, and the second in 11/23 by an encrypted SSH connection. VPN might be an option but since <br>
+ &#8195;&#8195;&#8195;security was a lie about the first two, I am not ready to trust that yet.<br><br>
+ 144) When performing an update &amp; upgrade from terminal, you may see "libdvd-pkg: `apt-get check` failed, you may have broken packages. Aborting"<br>
+ &#8195;&#8195;&#8195;Use the following to resolve it.<br>
+ &#8195;&#8195;&#8195;sudo dpkg-reconfigure libdvd-pkg <br>
+ &#8195;&#8195;&#8195;If this problem persist, you can select not to do "automatic" updates.<br>  
+ &#8195;&#8195;&#8195;Source: https://snapoverflow.com/ubuntu/question/1094062/libdvd-pkg-apt-get-check-failed-you-may-have-broken-packages-aborting/ <br><br>
+ 145) For best results in CLI, to find a file, use locate. Not find. The results are much more concise.<br><br>
+ 146) C:\ drive in Windows is /mnt/c/ in WSL Ubuntu (Windows 11). <br>
+ &#8195;&#8195;&#8195;BTW, WSL is the Windows Virtual Machine platform. Best with Ubuntu.<br><br>
+ 147) To zoom in and out on the Linux Desktop (or anything on it) press alt and scroll the mouse wheel.<br><br>
+ 148) To use A.I. on your local Linux machine, download Ollama, then follow these directions: https://zahiralam.com/blog/how-to-install-llama-3-1-on-ubuntu-24-04/<br>
+ &#8195;&#8195;&#8195;The best model is ollama run llama3.1:8b. The other models respond very slowly even oh high powered machines.<br><br>
+ 149) To batch scale videos in a folder for better streaming, use "for f in *.mp4 ; do ffmpeg -i "$f" -vf scale=1280:720 "720_$f" ;  done"  in that directory.<br><br>
+ 150) To launch a file in a new terminal window, use (example only):  x-terminal-emulator -e ./YT-Downloader.sh<br>
+ &#8195;&#8195;&#8195;Replace x-terminal-emulator with the name of your terminal or cli program.<br>
+ &#8195;&#8195;&#8195;Replace ./YT-Downloader.sh with the name of the file you wish to run in the new terminal window.<br><br>
+ 151) To easily arrange the icons on your desktop, place this in a script, place it on yout desktop, and make it executable:  xfdesktop -A<br><br>   
+ 152) To render a section of the timeline in the Kdenlive video editor, see this video:  https://www.youtube.com/watch?v=-H40NjcW2Cs<br><br>
+ 153) For best restore from suspend/sleep mode, always close (not minimize) all open windows or apps first.<br><br>
+ 154) To format drives using NTFS, you need to install the ntfs-3g package with  udo apt install ntfs-3g <br><br>
+ 155) To view the history of laptop lid opens and closes, use: 'cat /var/log/auth.log |grep -a Lid' <br><br>  
+ 156) Resources for packages are ppa sourses. Currently found in /etc/apt/sources.list.d<br>
+ &#8195;&#8195;&#8195;If you run update and find broken source errors, you can delete the sources there.<br>
+ &#8195;&#8195;&#8195;If you receive a "held broken packages" error, it simply means it was not installed.<br><br>
+ 157) 
+  
+ This page is updated often. Be sure to bookmark the page since downloading it will not show updates. Hope this helps.<br><br> 
+
+	
+	 
+
+</br<br></username></search></search></body></html>
